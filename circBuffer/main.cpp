@@ -6,10 +6,13 @@
 //  Copyright © 2017 dino. All rights reserved.
 //
 
-#include <iostream>
 
-int main(int argc, const char * argv[]) {
-  // insert code here...
-  std::cout << "Hello, World!\n";
-    return 0;
-}
+#define CATCH_CONFIG_MAIN
+#include "catch.hh"
+//#include <iostream>
+//
+//int main(int argc, const char * argv[]) {
+//  // insert code here...
+//  std::cout << "Hello, World!\n";
+//    return 0;
+//}

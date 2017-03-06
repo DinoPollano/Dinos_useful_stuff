@@ -15,27 +15,103 @@
 #include <assert.h>
 #include <algorithm>
 namespace dino {
+  template<class T>
   class circularBuffer
   {
   public:
     circularBuffer():writeHead(0),readHead(0),bufferLength(0){};
     ~circularBuffer(){};
     
-    void init(size_t length, float initialValue);
-    void insertOne(float val);
-    void insertMany(float* values, size_t length);
-    float getOne(size_t nFrom);
-    void flush();
-    std::vector<float> getMany(size_t nFrom);
-    std::vector<float> getUnwrapped();
+    void init(size_t length, T initialValue)
+    {
+      bufferLength = length;
+      buffer.resize(bufferLength, initialValue);
+    }
+    
+    void insertOne(T val)
+    {
+      buffer[writeHead] = val;
+      writeHead++;
+      if(writeHead >= bufferLength)
+      {
+        writeHead = 0;
+      }
+    }
+    
+    void insertMany(T* values, size_t length)
+    {
+      for(int i = 0; i < length; i++)
+      {
+        buffer[writeHead] = values[i];
+        if(++writeHead >= bufferLength)
+        {
+          writeHead = 0;
+        }
+      }
+    }
+    
+    T getOne(size_t nFrom)
+    {
+      assert(nFrom < bufferLength);
+      readHead = ((writeHead - nFrom) % bufferLength + bufferLength)%bufferLength;
+      T output = buffer[readHead];
+      return output;
+    }
+   
+    std::vector<T> getMany(size_t nFrom)
+    {
+      assert(nFrom < bufferLength);
+      std::vector<T> output(nFrom,NULL);
+      readHead = writeHead;
+      for (size_t i = 0; i <  nFrom; i++)
+      {
+        ++writeHead;
+        if(writeHead >= bufferLength){writeHead = 0;}
+        output[i] = buffer[readHead];
+      }
+      return output;
+    }
+    
+    std::vector<T> getUnwrapped()
+    {
+      std::vector<T> unwrapped(bufferLength,0.);
+      
+      typename std::vector<T>::iterator oldestElement = buffer.begin() + writeHead + 1;
+      typename std::vector<T>::iterator remaindingHalf =  buffer.begin();
+      
+      std::copy(oldestElement, buffer.end(), unwrapped.begin());
+      std::copy(remaindingHalf, remaindingHalf + writeHead, unwrapped.begin() + (buffer.end()-oldestElement));
+      
+      return unwrapped;
+    }
+
     size_t getLength() { return bufferLength; };
     
+    void flush()
+    {
+      if (bufferLength > 0)
+      {
+        std::fill(buffer.begin(), buffer.end(), 0.);
+      }
+    }
+
     
   private:
-    std::vector<float> buffer;
+    std::vector<T> buffer;
     size_t bufferLength;
     size_t writeHead;
     size_t readHead;
   };
+  
+  
+  template<class T>
+  class circularIterator : public std::iterator<std::bidirectional_iterator_tag, std::vector<T>>
+  {
+  public:
+    
+  private:
+    
+  };
 }
+//#include "circularBuffer.cpp"
 #endif /* circularBuffer_hpp */

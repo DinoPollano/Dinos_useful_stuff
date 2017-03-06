@@ -17,7 +17,7 @@ TEST_CASE("adding and retrieval")
 {
   using dino::circularBuffer;
   size_t buffsize = 512;
-  circularBuffer circBuffer;
+  circularBuffer<float> circBuffer;
   circBuffer.init(buffsize, 0.);
   size_t tick = 20;
   float  output;

@@ -8,13 +8,13 @@
 
 #include "circularBuffer.hpp"
 
-void dino::circularBuffer::init(size_t length, float initialValue)
+template <class T> void dino::circularBuffer<T>::init(size_t length, T initialValue)
 {
   bufferLength = length;
   buffer.resize(bufferLength, initialValue);
 }
 
-void dino::circularBuffer::insertOne(float val)
+template <class T> void dino::circularBuffer<T>::insertOne(T val)
 {
   buffer[writeHead] = val;
   writeHead++;
@@ -25,7 +25,7 @@ void dino::circularBuffer::insertOne(float val)
 }
 
 
-void dino::circularBuffer::insertMany(float *values, size_t length)
+template <class T> void dino::circularBuffer<T>::insertMany(T *values, size_t length)
 {
   for(int i = 0; i < length; i++)
   {
@@ -38,18 +38,18 @@ void dino::circularBuffer::insertMany(float *values, size_t length)
 }
 
 
-float dino::circularBuffer::getOne(size_t nFrom)
+template <class T> T dino::circularBuffer<T>::getOne(size_t nFrom)
 {
   assert(nFrom < bufferLength);
   readHead = ((writeHead - nFrom) % bufferLength + bufferLength)%bufferLength;
-  float output = buffer[readHead];
+  T output = buffer[readHead];
   return output;
 }
 
-std::vector<float> dino::circularBuffer::getMany(size_t nFrom)
+template <class T> std::vector<T> dino::circularBuffer<T>::getMany(size_t nFrom)
 {
   assert(nFrom < bufferLength);
-  std::vector<float> output(nFrom,NULL);
+  std::vector<T> output(nFrom,NULL);
   readHead = writeHead;
   for (size_t i = 0; i <  nFrom; i++)
   {
@@ -60,7 +60,7 @@ std::vector<float> dino::circularBuffer::getMany(size_t nFrom)
   return output;
 }
 
-void dino::circularBuffer::flush()
+template <class T> void dino::circularBuffer<T>::flush()
 {
   if (bufferLength > 0)
   {
@@ -68,12 +68,12 @@ void dino::circularBuffer::flush()
   }
 }
 
-std::vector<float> dino::circularBuffer::getUnwrapped()
+template<class T> std::vector<T> dino::circularBuffer<T>::getUnwrapped()
 {
-  std::vector<float> unwrapped(bufferLength,0.);
+  std::vector<T> unwrapped(bufferLength,0.);
   
-  std::vector<float>::iterator oldestElement = buffer.begin() + writeHead + 1;
-  std::vector<float>::iterator remaindingHalf =  buffer.begin();
+  typename std::vector<T>::iterator oldestElement = buffer.begin() + writeHead + 1;
+  typename std::vector<T>::iterator remaindingHalf =  buffer.begin();
   
   std::copy(oldestElement, buffer.end(), unwrapped.begin());
   std::copy(remaindingHalf, remaindingHalf + writeHead, unwrapped.begin() + (buffer.end()-oldestElement));

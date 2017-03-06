@@ -74,14 +74,12 @@ namespace dino {
     
     std::vector<T> getUnwrapped()
     {
-      std::vector<T> unwrapped(bufferLength,0.);
-      
-      typename std::vector<T>::iterator oldestElement = buffer.begin() + writeHead + 1;
+      std::vector<T> unwrapped;
+      typename std::vector<T>::iterator oldestElement = buffer.begin() + writeHead;
       typename std::vector<T>::iterator remaindingHalf =  buffer.begin();
-      
-      std::copy(oldestElement, buffer.end(), unwrapped.begin());
-      std::copy(remaindingHalf, remaindingHalf + writeHead, unwrapped.begin() + (buffer.end()-oldestElement));
-      
+      unwrapped.insert(unwrapped.begin(),oldestElement,buffer.end());
+      unwrapped.insert(unwrapped.end(),buffer.begin(),buffer.begin()+(writeHead-1));
+
       return unwrapped;
     }
 

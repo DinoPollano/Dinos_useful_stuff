@@ -14,12 +14,15 @@
 #include <type_traits>
 #include <assert.h>
 #include <algorithm>
+#include <type_traits>
 namespace dino {
   template<class T>
   class circularBuffer
   {
   public:
-    circularBuffer():writeHead(0),readHead(0),bufferLength(0){};
+    circularBuffer():writeHead(0),readHead(0),bufferLength(0){
+      static_assert(std::is_floating_point<T>(), "must be float (or double)");
+    };
     ~circularBuffer(){};
     
     void init(size_t length, T initialValue)

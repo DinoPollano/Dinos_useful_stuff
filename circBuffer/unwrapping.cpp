@@ -14,7 +14,7 @@
 #include <algorithm>
 
 
-TEST_CASE("Unwrapping")
+TEST_CASE("Unwrapping function")
 {
   using dino::circularBuffer;
   size_t bufferLength = 64;
@@ -33,7 +33,7 @@ TEST_CASE("Unwrapping")
   circBuffer.insertMany(&input[0], bufferLength);
   
   std::vector<float>  output = circBuffer.getUnwrapped();
-  SECTION("checking beginning and end")
+  SECTION("comparing beginning and end of input and unwrapped")
   {
     CHECK(output[0] == input[0]);
     CHECK(output[bufferLength-1] == input[bufferLength]);

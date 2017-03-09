@@ -23,20 +23,21 @@ TEST_CASE("Unwrapping function")
   
   std::unique_ptr<float[]> initial(new float[31]);
   circBuffer.insertMany(&initial[0], 31);
-  std::unique_ptr<float[]> input(new float[bufferLength]);
   
+  std::unique_ptr<float[]> input(new float[bufferLength]);
   for(int i = 0; i < bufferLength; i++)
   {
     input[i] = static_cast<float>(i);
   }
   
-  circBuffer.insertMany(&input[0], bufferLength);
+  circBuffer.insertMany(input.get(), bufferLength);
   
   std::vector<float>  output = circBuffer.getUnwrapped();
+  
   SECTION("comparing beginning and end of input and unwrapped")
   {
     CHECK(output[0] == input[0]);
-    CHECK(output[bufferLength-1] == input[bufferLength]);
+    CHECK(output[bufferLength-1] == input[bufferLength-1]);
   }
   
                                  

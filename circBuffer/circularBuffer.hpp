@@ -81,7 +81,7 @@ namespace dino {
       typename std::vector<T>::iterator oldestElement = buffer.begin() + writeHead;
       typename std::vector<T>::iterator remaindingHalf =  buffer.begin();
       unwrapped.insert(unwrapped.begin(),oldestElement,buffer.end());
-      unwrapped.insert(unwrapped.end(),buffer.begin(),buffer.begin()+(writeHead-1));
+      unwrapped.insert(unwrapped.end(),buffer.begin(),buffer.begin()+(writeHead));
 
       return unwrapped;
     }

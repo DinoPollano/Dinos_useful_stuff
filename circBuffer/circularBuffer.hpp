@@ -23,6 +23,7 @@ namespace dino {
     circularBuffer():writeHead(0),readHead(0),bufferLength(0){
       static_assert(std::is_floating_point<T>(), "must be float (or double)");
     };
+    
     ~circularBuffer(){};
     
     void init(size_t length, T initialValue)
@@ -34,11 +35,7 @@ namespace dino {
     void insertOne(T val)
     {
       buffer[writeHead] = val;
-      writeHead++;
-      if(writeHead >= bufferLength)
-      {
-        writeHead = 0;
-      }
+      if(++writeHead >= bufferLength){ writeHead = 0;}
     }
     
     void insertMany(T* values, size_t length)
@@ -46,10 +43,7 @@ namespace dino {
       for(int i = 0; i < length; i++)
       {
         buffer[writeHead] = values[i];
-        if(++writeHead >= bufferLength)
-        {
-          writeHead = 0;
-        }
+        if(++writeHead >= bufferLength){ writeHead = 0;}
       }
     }
     
@@ -68,9 +62,8 @@ namespace dino {
       readHead = writeHead;
       for (size_t i = 0; i <  nFrom; i++)
       {
-        ++writeHead;
-        if(writeHead >= bufferLength){writeHead = 0;}
         output[i] = buffer[readHead];
+        if(++writeHead >= bufferLength){writeHead = 0;}
       }
       return output;
     }
@@ -103,11 +96,10 @@ namespace dino {
     size_t writeHead;
     size_t readHead;
   };
-  
-  
-  template<class T>
-  class circularIterator : public std::iterator<std::bidirectional_iterator_tag, std::vector<T>>
-  {
+
+  template <class T>
+  class circularIterator
+      : public std::iterator<std::bidirectional_iterator_tag, std::vector<T>> {
   public:
     
   private:

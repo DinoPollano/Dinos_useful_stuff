@@ -96,15 +96,6 @@ namespace dino {
     size_t writeHead;
     size_t readHead;
   };
-
-  template <class T>
-  class circularIterator
-      : public std::iterator<std::bidirectional_iterator_tag, std::vector<T>> {
-  public:
-    
-  private:
-    
-  };
 }
 //#include "circularBuffer.cpp"
 #endif /* circularBuffer_hpp */

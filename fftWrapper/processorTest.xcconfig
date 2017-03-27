@@ -1,0 +1,40 @@
+//
+//  processorTest.xcconfig
+//  laFFT~
+//
+//  Created by Christofero Pollano on 17/01/2017.
+//
+//
+//:configuration = Deployment
+ALWAYS_SEARCH_USER_PATHS = YES
+
+//:configuration = Development
+ALWAYS_SEARCH_USER_PATHS = YES
+
+//:completeSettings = some
+ALWAYS_SEARCH_USER_PATHS
+
+//:configuration = Deployment
+HEADER_SEARCH_PATHS = "/opt/intel/ipp/include"
+
+//:configuration = Development
+HEADER_SEARCH_PATHS = "/opt/intel/ipp/include"
+
+//:completeSettings = some
+HEADER_SEARCH_PATHS
+
+//:configuration = Deployment
+
+//:configuration = Development
+
+//:completeSettings = some
+LIBRARY_SEARCH_PATHS
+
+//:configuration = Deployment
+OTHER_LDFLAGS = /opt/intel/ipp/lib/libippi.a /opt/intel/ipp/lib/libipps.a /opt/intel/ipp/lib/libippvm.a /opt/intel/ipp/lib/libippcore.a
+
+//:configuration = Development
+OTHER_LDFLAGS = /opt/intel/ipp/lib/libippi.a /opt/intel/ipp/lib/libipps.a /opt/intel/ipp/lib/libippvm.a /opt/intel/ipp/lib/libippcore.a
+
+//:completeSettings = some
+OTHER_LDFLAGS

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3142AC6B1E6317D00029C106"
-               BuildableName = "circBuffer"
-               BlueprintName = "circBuffer"
-               ReferencedContainer = "container:circBuffer.xcodeproj">
+               BlueprintIdentifier = "3105FAF31E86CCFE0019573D"
+               BuildableName = "FFTWrapper"
+               BlueprintName = "FFTWrapper"
+               ReferencedContainer = "container:FFTWrapper.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,10 +32,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3142AC6B1E6317D00029C106"
-            BuildableName = "circBuffer"
-            BlueprintName = "circBuffer"
-            ReferencedContainer = "container:circBuffer.xcodeproj">
+            BlueprintIdentifier = "3105FAF31E86CCFE0019573D"
+            BuildableName = "FFTWrapper"
+            BlueprintName = "FFTWrapper"
+            ReferencedContainer = "container:FFTWrapper.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -55,10 +55,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3142AC6B1E6317D00029C106"
-            BuildableName = "circBuffer"
-            BlueprintName = "circBuffer"
-            ReferencedContainer = "container:circBuffer.xcodeproj">
+            BlueprintIdentifier = "3105FAF31E86CCFE0019573D"
+            BuildableName = "FFTWrapper"
+            BlueprintName = "FFTWrapper"
+            ReferencedContainer = "container:FFTWrapper.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -74,10 +74,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3142AC6B1E6317D00029C106"
-            BuildableName = "circBuffer"
-            BlueprintName = "circBuffer"
-            ReferencedContainer = "container:circBuffer.xcodeproj">
+            BlueprintIdentifier = "3105FAF31E86CCFE0019573D"
+            BuildableName = "FFTWrapper"
+            BlueprintName = "FFTWrapper"
+            ReferencedContainer = "container:FFTWrapper.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -88,7 +88,6 @@ TEST_CASE ("FFT Wrapper - Sine Wave", "[sines]")
 	double                        f   = (k * Fs) / 512;
 
 	CHECK (f == Approx (fc).epsilon (0.1));
-	testing = (++count <= numCycles);
 
 }  // Sine wave
 

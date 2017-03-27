@@ -33,6 +33,7 @@ struct FFTWrapper
 };
 #pragma endregion
 
+#pragma mark - 32-bit implementation
 class FFTWrapper32
 {
  public:
@@ -71,7 +72,7 @@ class FFTWrapper32
 	IppStatus          m_status[FFTWrapper::totalNumStatus];
 };
 
-// ==============   64-bit (double)   ===================
+#pragma mark - 64-bit implementation
 
 class FFTWrapper64
 {
@@ -110,5 +111,4 @@ class FFTWrapper64
 	IppsFFTSpec_R_64f* m_FFTSpec   = nullptr;
 	IppStatus          m_status[FFTWrapper::totalNumStatus];
 };
-}// namespace dino
-
+}  // namespace dino

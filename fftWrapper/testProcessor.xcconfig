@@ -71,5 +71,5 @@ LIBRARY_SEARCH_PATHS =  /opt/intel/ipp/lib/
 // most likely this will only apply to the ext_main() function which we've already prototyped for you
 OTHER_CFLAGS = -fvisibility=hidden
 
-OTHER_LDFLAGS =  /opt/intel/ipp/lib/libippi.a /opt/intel/ipp/lib/libipps.a /opt/intel/ipp/lib/libippvm.a /opt/intel/ipp/lib/libippcore.a
+OTHER_LDFLAGS = /opt/intel/ipp/lib/libippi.a /opt/intel/ipp/lib/libipps.a /opt/intel/ipp/lib/libippvm.a /opt/intel/ipp/lib/libippcore.a
 

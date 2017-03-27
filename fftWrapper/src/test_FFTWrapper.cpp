@@ -7,17 +7,19 @@
 
 #include <stdio.h>
 #include "catch.hh"
-#include "LAFFTWrapper.h"
+#include "FFTWrapper.h"
 #include <iostream>
 #include <vector>
 #include <numeric>
+using dino::FFTWrapper64;
+using dino::FFTWrapper;
 
 TEST_CASE ("FFT Wrapper")
 {
 	const size_t NFFT        = 128;
 	const size_t kSignalSize = NFFT;
-
-	LAFFTWrapper64 fft;
+	
+	FFTWrapper64 fft;
 
 	// Test signal
 	std::vector<double> buffer (kSignalSize, 1.);
@@ -27,13 +29,13 @@ TEST_CASE ("FFT Wrapper")
 
 	SECTION ("Normal behaviour")
 	{
-		CHECK (fft.getStatus (LAFFTWrapper::GetSizeStatus) == ippStsNoErr);
+    CHECK (fft.getStatus (FFTWrapper::GetSizeStatus) == ippStsNoErr);
 
 		fft.performHanningWindow (buffer.data(), kSignalSize);
 		fft.calculateMagnitude (buffer.data (), Xf.data ());
 
-		CHECK (fft.getStatus (LAFFTWrapper::GetSizeStatus) == ippStsNoErr);
-		CHECK (fft.getStatus (LAFFTWrapper::FFTinitStatus) == ippStsNoErr);
+		CHECK (fft.getStatus (FFTWrapper::GetSizeStatus) == ippStsNoErr);
+		CHECK (fft.getStatus (FFTWrapper::FFTinitStatus) == ippStsNoErr);
 	}
 
 	SECTION ("Limits - Giving vectors that are too long")
@@ -41,8 +43,8 @@ TEST_CASE ("FFT Wrapper")
 		std::vector<double> xbig (kSignalSize * 2, 1.);
 
 		fft.calculateMagnitude (xbig.data (), Xf.data ());
-		CHECK (fft.getStatus (LAFFTWrapper::FFTStatus) == ippStsNoErr);
-		CHECK (fft.getStatus (LAFFTWrapper::MagnitudeStatus) ==
+		CHECK (fft.getStatus (FFTWrapper::FFTStatus) == ippStsNoErr);
+		CHECK (fft.getStatus (FFTWrapper::MagnitudeStatus) ==
 		       ippStsNoErr);
 	}
 }
@@ -51,7 +53,7 @@ TEST_CASE ("FFT Wrapper - Sine Wave", "[sines]")
 {
 	const size_t NFFT = 512;
 
-	LAFFTWrapper64 fft;
+	FFTWrapper64 fft;
 
 	size_t blockSize = 64;
 	// Test signal

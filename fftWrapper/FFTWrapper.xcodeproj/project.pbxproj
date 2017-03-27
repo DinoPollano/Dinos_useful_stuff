@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3105FAF81E86CCFE0019573D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3105FAF71E86CCFE0019573D /* main.cpp */; };
+		3105FB011E86D1F20019573D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3105FB001E86D1F20019573D /* main.cpp */; };
+		3105FB051E86D2070019573D /* test_FFTWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3105FB021E86D2070019573D /* test_FFTWrapper.cpp */; };
+		3105FB061E86D2070019573D /* FFTWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3105FB031E86D2070019573D /* FFTWrapper.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +26,12 @@
 
 /* Begin PBXFileReference section */
 		3105FAF41E86CCFE0019573D /* FFTWrapper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FFTWrapper; sourceTree = BUILT_PRODUCTS_DIR; };
-		3105FAF71E86CCFE0019573D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		3105FAFE1E86CD270019573D /* catch.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = catch.hh; path = ../catch.hh; sourceTree = "<group>"; };
+		3105FB001E86D1F20019573D /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
+		3105FB021E86D2070019573D /* test_FFTWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_FFTWrapper.cpp; path = src/test_FFTWrapper.cpp; sourceTree = SOURCE_ROOT; };
+		3105FB031E86D2070019573D /* FFTWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FFTWrapper.cpp; path = src/FFTWrapper.cpp; sourceTree = SOURCE_ROOT; };
+		3105FB041E86D2070019573D /* FFTWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTWrapper.h; path = src/FFTWrapper.h; sourceTree = SOURCE_ROOT; };
+		3105FB091E88550E0019573D /* testProcessor.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = testProcessor.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,8 +48,10 @@
 		3105FAEB1E86CCFD0019573D = {
 			isa = PBXGroup;
 			children = (
+				3105FB091E88550E0019573D /* testProcessor.xcconfig */,
 				3105FAF61E86CCFE0019573D /* FFTWrapper */,
 				3105FAF51E86CCFE0019573D /* Products */,
+				3105FAFE1E86CD270019573D /* catch.hh */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +66,20 @@
 		3105FAF61E86CCFE0019573D /* FFTWrapper */ = {
 			isa = PBXGroup;
 			children = (
-				3105FAF71E86CCFE0019573D /* main.cpp */,
+				3105FB031E86D2070019573D /* FFTWrapper.cpp */,
+				3105FB041E86D2070019573D /* FFTWrapper.h */,
+				3105FAFF1E86D1B80019573D /* Unit Test */,
 			);
 			path = FFTWrapper;
+			sourceTree = "<group>";
+		};
+		3105FAFF1E86D1B80019573D /* Unit Test */ = {
+			isa = PBXGroup;
+			children = (
+				3105FB001E86D1F20019573D /* main.cpp */,
+				3105FB021E86D2070019573D /* test_FFTWrapper.cpp */,
+			);
+			name = "Unit Test";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,7 +139,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3105FAF81E86CCFE0019573D /* main.cpp in Sources */,
+				3105FB061E86D2070019573D /* FFTWrapper.cpp in Sources */,
+				3105FB051E86D2070019573D /* test_FFTWrapper.cpp in Sources */,
+				3105FB011E86D1F20019573D /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +237,7 @@
 		};
 		3105FAFC1E86CCFE0019573D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3105FB091E88550E0019573D /* testProcessor.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -222,6 +245,7 @@
 		};
 		3105FAFD1E86CCFE0019573D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3105FB091E88550E0019573D /* testProcessor.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -246,6 +270,7 @@
 				3105FAFD1E86CCFE0019573D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

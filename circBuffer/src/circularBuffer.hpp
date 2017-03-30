@@ -32,13 +32,13 @@ namespace dino {
       buffer.resize(bufferLength, initialValue);
     }
     
-    void insertOne(T val)
+    inline void insertOne(T val)
     {
       buffer[writeHead] = val;
       if(++writeHead >= bufferLength){ writeHead = 0;}
     }
     
-    void insertMany(T* values, size_t length)
+    inline void insertMany(T* values, size_t length)
     {
       for(int i = 0; i < length; i++)
       {
@@ -47,7 +47,7 @@ namespace dino {
       }
     }
     
-    T getOne(size_t nFrom)
+   inline T getOne(size_t nFrom)
     {
       assert(nFrom < bufferLength);
       readHead = ((writeHead - nFrom) % bufferLength + bufferLength)%bufferLength;
@@ -55,7 +55,7 @@ namespace dino {
       return output;
     }
    
-    std::vector<T> getMany(size_t nFrom)
+   inline std::vector<T> getMany(size_t nFrom)
     {
       assert(nFrom < bufferLength);
       std::vector<T> output(nFrom,NULL);
@@ -68,7 +68,7 @@ namespace dino {
       return output;
     }
     
-    std::vector<T> getUnwrapped()
+   inline std::vector<T> getUnwrapped()
     {
       std::vector<T> unwrapped;
       typename std::vector<T>::iterator oldestElement = buffer.begin() + writeHead;

@@ -32,13 +32,13 @@ namespace dino {
       buffer.resize(bufferLength, initialValue);
     }
     
-    inline void insertOne(T val)
+    inline void insertOne(const T val)
     {
       buffer[writeHead] = val;
       if(++writeHead >= bufferLength){ writeHead = 0;}
     }
     
-    inline void insertMany(T* values, size_t length)
+    inline void insertMany(const T* values, size_t length)
     {
       for(int i = 0; i < length; i++)
       {

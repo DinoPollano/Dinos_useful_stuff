@@ -109,7 +109,7 @@ void dino::FFTWrapper32::prepFFT (int fftLength)
 		m_interleavedFreqData = new float[m_fftSize + 2];
 		m_cmplxFreqData       = new Ipp32fc[m_fftSize];
 	}
-};
+}
 
 void dino::FFTWrapper32::calculateMagnitude (const float* source,
                                              float*       magnitude)

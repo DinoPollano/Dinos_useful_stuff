@@ -20,7 +20,7 @@ namespace dino {
   class circularBuffer
   {
   public:
-    circularBuffer():writeHead(0),bufferLength(0),readHead(0){
+    circularBuffer():bufferLength(0),writeHead(0),readHead(0){
       static_assert(std::is_floating_point<T>(), "must be float (or double)");
     };
     
@@ -72,7 +72,6 @@ namespace dino {
     {
       std::vector<T> unwrapped;
       typename std::vector<T>::iterator oldestElement = buffer.begin() + writeHead;
-      typename std::vector<T>::iterator remaindingHalf =  buffer.begin();
       unwrapped.insert(unwrapped.begin(),oldestElement,buffer.end());
       unwrapped.insert(unwrapped.end(),buffer.begin(),buffer.begin()+(writeHead));
 

@@ -67,6 +67,21 @@ TEST_CASE ("FFT Wrapper")
     CHECK(*bin ==  1.);
    
   }
+  SECTION("given ones  and windowed - first bin should be greatest and should equal 0.5 ")
+  {
+    FFTWrapper64 fft;
+    
+    // Test signal
+    std::vector<double> buffer (kSignalSize, 1.);
+    std::vector<double> Xf (NFFT / 2, 0.);
+    fft.prepFFT (NFFT);
+    fft.performHanningWindow(buffer.data(), NFFT);
+    fft.calculateMagnitude (buffer.data (), Xf.data ());
+    std::vector<double>::iterator bin = std::max_element (Xf.begin (), Xf.end ());
+    CHECK (bin == Xf.begin());
+    CHECK(*bin == Approx(0.5).epsilon (0.1));
+    
+  }
 }
 
 TEST_CASE ("FFT Wrapper - Sine Wave", "[sines]")

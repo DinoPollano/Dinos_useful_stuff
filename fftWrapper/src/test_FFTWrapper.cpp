@@ -18,17 +18,16 @@ TEST_CASE ("FFT Wrapper")
 {
 	const size_t NFFT        = 128;
 	const size_t kSignalSize = NFFT;
-	
-	FFTWrapper64 fft;
-
-	// Test signal
-	std::vector<double> buffer (kSignalSize, 1.);
-	std::vector<double> Xf (NFFT / 2, 0.);
-
-	fft.prepFFT (NFFT);
 
 	SECTION ("Normal behaviour")
 	{
+    FFTWrapper64 fft;
+    
+    // Test signal
+    std::vector<double> buffer (kSignalSize, 1.);
+    std::vector<double> Xf (NFFT / 2, 0.);
+    
+    fft.prepFFT (NFFT);
     CHECK (fft.getStatus (FFTWrapper::GetSizeStatus) == ippStsNoErr);
 
 		fft.performHanningWindow (buffer.data(), kSignalSize);
@@ -37,9 +36,15 @@ TEST_CASE ("FFT Wrapper")
 		CHECK (fft.getStatus (FFTWrapper::GetSizeStatus) == ippStsNoErr);
 		CHECK (fft.getStatus (FFTWrapper::FFTinitStatus) == ippStsNoErr);
 	}
-
 	SECTION ("Limits - Giving vectors that are too long")
 	{  // essentially the IPP will just truncate
+    FFTWrapper64 fft;
+    
+    // Test signal
+    std::vector<double> buffer (kSignalSize, 1.);
+    std::vector<double> Xf (NFFT / 2, 0.);
+    
+    fft.prepFFT (NFFT);
 		std::vector<double> xbig (kSignalSize * 2, 1.);
 
 		fft.calculateMagnitude (xbig.data (), Xf.data ());
@@ -47,6 +52,21 @@ TEST_CASE ("FFT Wrapper")
 		CHECK (fft.getStatus (FFTWrapper::MagnitudeStatus) ==
 		       ippStsNoErr);
 	}
+  
+  SECTION("given ones - first bin should be greatest and should equal 1 ")
+  {
+    FFTWrapper64 fft;
+    
+    // Test signal
+    std::vector<double> buffer (kSignalSize, 1.);
+    std::vector<double> Xf (NFFT / 2, 0.);
+    fft.prepFFT (NFFT);
+    fft.calculateMagnitude (buffer.data (), Xf.data ());
+    std::vector<double>::iterator bin = std::max_element (Xf.begin (), Xf.end ());
+    CHECK (bin == Xf.begin());
+    CHECK(*bin ==  1.);
+   
+  }
 }
 
 TEST_CASE ("FFT Wrapper - Sine Wave", "[sines]")

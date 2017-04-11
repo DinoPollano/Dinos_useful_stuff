@@ -10,6 +10,7 @@
 		311B296F1E85DD8300C5516C /* adding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311B296C1E85DD8300C5516C /* adding.cpp */; };
 		311B29701E85DD8300C5516C /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311B296D1E85DD8300C5516C /* main.cpp */; };
 		311B29711E85DD8300C5516C /* unwrapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 311B296E1E85DD8300C5516C /* unwrapping.cpp */; };
+		31C8A0691E9CDAC90018AC74 /* different_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 31C8A0681E9CDAC90018AC74 /* different_types.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,7 @@
 		311B296E1E85DD8300C5516C /* unwrapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = unwrapping.cpp; path = src/unwrapping.cpp; sourceTree = SOURCE_ROOT; };
 		3142AC6C1E6317D00029C106 /* circBuffer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = circBuffer; sourceTree = BUILT_PRODUCTS_DIR; };
 		3142AC771E632D8D0029C106 /* catch.hh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = catch.hh; path = ../catch.hh; sourceTree = "<group>"; };
+		31C8A0681E9CDAC90018AC74 /* different_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = different_types.cpp; path = src/different_types.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 			isa = PBXGroup;
 			children = (
 				311B296C1E85DD8300C5516C /* adding.cpp */,
+				31C8A0681E9CDAC90018AC74 /* different_types.cpp */,
 				311B296D1E85DD8300C5516C /* main.cpp */,
 				311B296E1E85DD8300C5516C /* unwrapping.cpp */,
 			);
@@ -141,6 +144,7 @@
 				311B296F1E85DD8300C5516C /* adding.cpp in Sources */,
 				311B29701E85DD8300C5516C /* main.cpp in Sources */,
 				311B29711E85DD8300C5516C /* unwrapping.cpp in Sources */,
+				31C8A0691E9CDAC90018AC74 /* different_types.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

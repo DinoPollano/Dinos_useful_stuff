@@ -21,7 +21,7 @@ namespace dino {
   {
   public:
     circularBuffer():bufferLength(0),writeHead(0),readHead(0){
-      static_assert(std::is_floating_point<T>(), "must be float (or double)");
+
     };
     
     ~circularBuffer(){};
@@ -54,6 +54,11 @@ namespace dino {
       T output = buffer[readHead];
       return output;
     }
+    
+    inline T getInterpolatedOne(float nFrom) 
+    {
+            static_assert(std::is_arithmetic<T>(), "must be float (or double) to get interpolated value");
+    }
    
    inline std::vector<T> getMany(size_t nFrom)
     {
@@ -85,9 +90,10 @@ namespace dino {
       if (bufferLength > 0)
       {
         std::fill(buffer.begin(), buffer.end(), 0.);
+        buffer.clear();
       }
     }
-
+    
     
   private:
     std::vector<T> buffer;

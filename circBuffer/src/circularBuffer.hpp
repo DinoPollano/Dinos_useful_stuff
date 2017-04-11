@@ -49,7 +49,7 @@ namespace dino {
     
    inline T getOne(size_t nFrom)
     {
-      assert(nFrom < bufferLength);
+      assert(nFrom <= bufferLength);
       readHead = ((writeHead - nFrom) % bufferLength + bufferLength)%bufferLength;
       T output = buffer[readHead];
       return output;

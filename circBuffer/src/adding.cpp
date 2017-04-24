@@ -11,19 +11,21 @@
 #include "circularBuffer.hpp"
 #include <vector>
 #include <memory>
+#include  <numeric>
 
 
 TEST_CASE("adding and retrieval")
 {
-  using dino::circularBuffer;
-  size_t buffsize = 512;
-  circularBuffer<float> circBuffer;
-  circBuffer.init(buffsize, 0.);
-  size_t tick = 20;
-  float  output;
+  
   
   SECTION("adding individually")
   {
+    using dino::circularBuffer;
+    size_t buffsize = 512;
+    circularBuffer<float> circBuffer;
+    circBuffer.init(buffsize, 0.);
+    size_t tick = 20;
+    float  output;
     circBuffer.insertOne(1.);
     for( int i = 20;  ++i < buffsize;)
     {
@@ -35,27 +37,27 @@ TEST_CASE("adding and retrieval")
       (i % tick == 0) ? circBuffer.insertOne(1.) :circBuffer.insertOne(0.);
     }
   }
-  circBuffer.flush();
+  
   
   SECTION("adding blocks")
   {
+    using dino::circularBuffer;
+    size_t buffsize = 128;
+    circularBuffer<float> circBuffer;
+    circBuffer.init(buffsize, 0.);
+    float  output;
     size_t blockSize = 8;
     std::unique_ptr<float[]> input(new float[blockSize]);
-    for(int i = 0; ++i<blockSize;)
-    {
-      input[i] = 0.;
-    }
-    input[0] = 1.;
-    for( int i = 0; i <  1024; i++)
+    std::iota(input.get(), input.get()+8, 1);
+    for( int i = 0; i <  32; i++)
     {
       circBuffer.insertMany( &input[0], blockSize);
-      if(i % tick == 0)
-      {
-        output = circBuffer.getOne(blockSize);
-        CHECK(output == 1.0);
+      for (size_t k = 1; k <= blockSize; k++) {
+        float output = circBuffer.getOne(k);
+        CHECK(output == (9-k));
       }
     }
   }
-  circBuffer.flush();
+  
   
 }

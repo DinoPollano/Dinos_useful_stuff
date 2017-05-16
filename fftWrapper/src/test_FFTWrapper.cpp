@@ -12,9 +12,10 @@
 #include <vector>
 #include <numeric>
 using dino::FFTWrapper64;
+using dino::FFTWrapper32;
 using dino::FFTWrapper;
 
-TEST_CASE ("FFT Wrapper")
+TEST_CASE ("FFT Wrapper - Magnitude")
 {
 	const size_t NFFT        = 128;
 	const size_t kSignalSize = NFFT;
@@ -124,5 +125,49 @@ TEST_CASE ("FFT Wrapper - Sine Wave", "[sines]")
 
 	CHECK (f == Approx (fc).epsilon (0.1));
 
-}  // Sine wave
+}
+
+TEST_CASE("FFT Wrapper - FFT")
+{
+  SECTION(" double Version")
+  {
+  FFTWrapper64 fft;
+  
+  const size_t NFFT        = 128;
+  const size_t kSignalSize = NFFT;
+  
+  
+  // Test signal
+  std::vector<double> buffer (kSignalSize, 1.);
+  std::vector<double> Xfre (NFFT, 0.);
+  std::vector<double> Xfim (NFFT, 0.);
+  fft.prepFFT (NFFT);
+//  fft.performHanningWindow(buffer.data(), NFFT);
+  fft.calculateFFT(buffer.data(), Xfre.data(), Xfim.data());
+  std::vector<double>::iterator bin = std::max_element (Xfre.begin (), Xfre.end ());
+  CHECK (bin == Xfre.begin());
+  CHECK(*bin ==  1.);
+  }
+  SECTION(" float Version")
+  {
+    FFTWrapper32 fft;
+    
+    const size_t NFFT        = 512;
+    const size_t kSignalSize = NFFT;
+    
+    
+    // Test signal
+    std::vector<float> buffer (kSignalSize, 1.);
+    std::iota(buffer.begin(), buffer.end(), 1.);
+    std::vector<float> Xfre (NFFT, 0.);
+    std::vector<float> Xfim (NFFT, 0.);
+    fft.prepFFT (NFFT);
+//      fft.performHanningWindow(buffer.data(), NFFT);
+    fft.calculateFFT(buffer.data(), Xfre.data(), Xfim.data());
+
+//    CHECK ( Xfim[1]==*Xfim.end());
+//    CHECK(*bin ==  1.);
+
+  }
+}
 

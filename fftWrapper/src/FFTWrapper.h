@@ -94,9 +94,8 @@ class FFTWrapper32
 			m_cmplxFreqData       = new Ipp32fc[m_fftSize];
 		}
 	}
-  
+
 	IppStatus getStatus (size_t StatusIndex) { return m_status[StatusIndex]; }
-  
 	// this method assumes source is a real signal, it should also be the same
 	// length as the FFT size
 	void calculateMagnitude (const float* source, float* magnitude)
@@ -123,19 +122,24 @@ class FFTWrapper32
 		                   lengthInsamples);  // uses IPP's windowing function
 	}
 
+  void calculateFFT(const float* source, float* reDestination, float* imDestination)
+  {
+    // perform fft, this will create an interleaved pointer to pointer of
+    // complex data
+    m_status[FFTWrapper::FFTStatus] = ippsFFT_RT_to_interleaved (
+                                                                 source, m_interleavedFreqData, m_FFTSpec, m_pBuffer);
+    
+    // move the interleaved data into a complex pointer to pointer
+    m_status[FFTWrapper::FormartConvertStatus] = ipps_interleaved_to_complex (
+                                                                              m_interleavedFreqData, m_cmplxFreqData, static_cast<int> (m_fftSize));
+    for( int i = 0; i < m_fftSize; i++)
+    {
+      reDestination[i] = m_cmplxFreqData[i].re;
+      imDestination[i] = m_cmplxFreqData[i].im;
+    }
+  }
+  
  private:
-	IppStatus ipps_interleaved_to_complex (const float* src, Ipp32fc* dst,
-	                                       int length)
-	{
-		IppStatus stat = ippsConjCcs_32fc (src, dst, length);
-		return stat;
-	}
-	IppStatus ipps_magnitude_from_complex (const Ipp32fc* src, float* dst,
-	                                       int length)
-	{
-		IppStatus stat = ippsMagnitude_32fc (src, dst, length);
-		return stat;
-	}
 	IppStatus ippFFTinit (IppsFFTSpec_R_32f** FFTSpec, int order, int flag,
 	                      IppHintAlgorithm hint, Ipp8u* pSpec, Ipp8u* pSpecBuffer)
 	{
@@ -151,11 +155,22 @@ class FFTWrapper32
 		                                       specBufferSize, bufferSize);
 		return stat;
 	}
-
 	IppStatus ippsFFT_RT_to_interleaved (const float* SRC, float* DST,
 	                                     IppsFFTSpec_R_32f* spec, Ipp8u* buff)
 	{
 		IppStatus stat = ippsFFTFwd_RToCCS_32f (SRC, DST, spec, buff);
+		return stat;
+	}
+	IppStatus ipps_interleaved_to_complex (const float* src, Ipp32fc* dst,
+	                                       int length)
+	{
+		IppStatus stat = ippsConjCcs_32fc (src, dst, length);
+		return stat;
+	}
+	IppStatus ipps_magnitude_from_complex (const Ipp32fc* src, float* dst,
+	                                       int length)
+	{
+		IppStatus stat = ippsMagnitude_32fc (src, dst, length);
 		return stat;
 	}
 
@@ -256,6 +271,23 @@ class FFTWrapper64
 		ippsWinHann_64f_I (source,
 		                   lengthInsamples);  // uses IPP's windowing function
 	}
+  
+  void calculateFFT(const double* source, double* reDestination, double* imDestination)
+  {
+    // perform fft, this will create an interleaved pointer to pointer of
+    // complex data
+    m_status[FFTWrapper::FFTStatus] = ippsFFT_RT_to_interleaved (
+                                                                 source, m_interleavedFreqData, m_FFTSpec, m_pBuffer);
+    
+    // move the interleaved data into a complex pointer to pointer
+    m_status[FFTWrapper::FormartConvertStatus] = ipps_interleaved_to_complex (
+                                                                              m_interleavedFreqData, m_cmplxFreqData, static_cast<int> (m_fftSize));
+    for( int i = 0; i < m_fftSize; i++)
+    {
+      reDestination[i] = m_cmplxFreqData[i].re;
+      imDestination[i] = m_cmplxFreqData[i].im;
+    }
+  }
 
  private:
 	IppStatus ippFFTinit (IppsFFTSpec_R_64f** FFTSpec, int order, int flag,

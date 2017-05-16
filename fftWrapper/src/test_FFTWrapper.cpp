@@ -11,9 +11,8 @@
 #include <iostream>
 #include <vector>
 #include <numeric>
-using dino::FFTWrapper64;
-using dino::FFTWrapper32;
 using dino::FFTWrapper;
+using dino::FFTWrapperStatus;
 
 TEST_CASE ("FFT Wrapper - Magnitude")
 {
@@ -22,24 +21,25 @@ TEST_CASE ("FFT Wrapper - Magnitude")
 
 	SECTION ("Normal behaviour")
 	{
-    FFTWrapper64 fft;
+    FFTWrapper<double> fft;
+    
     
     // Test signal
     std::vector<double> buffer (kSignalSize, 1.);
     std::vector<double> Xf (NFFT / 2, 0.);
     
     fft.prepFFT (NFFT);
-    CHECK (fft.getStatus (FFTWrapper::GetSizeStatus) == ippStsNoErr);
+    CHECK (fft.getStatus (FFTWrapperStatus::GetSizeStatus) == ippStsNoErr);
 
 		fft.performHanningWindow (buffer.data(), kSignalSize);
 		fft.calculateMagnitude (buffer.data (), Xf.data ());
 
-		CHECK (fft.getStatus (FFTWrapper::GetSizeStatus) == ippStsNoErr);
-		CHECK (fft.getStatus (FFTWrapper::FFTinitStatus) == ippStsNoErr);
+		CHECK (fft.getStatus (FFTWrapperStatus::GetSizeStatus) == ippStsNoErr);
+		CHECK (fft.getStatus (FFTWrapperStatus::FFTinitStatus) == ippStsNoErr);
 	}
 	SECTION ("Limits - Giving vectors that are too long")
 	{  // essentially the IPP will just truncate
-    FFTWrapper64 fft;
+    FFTWrapper<double> fft;
     
     // Test signal
     std::vector<double> buffer (kSignalSize, 1.);
@@ -49,14 +49,14 @@ TEST_CASE ("FFT Wrapper - Magnitude")
 		std::vector<double> xbig (kSignalSize * 2, 1.);
 
 		fft.calculateMagnitude (xbig.data (), Xf.data ());
-		CHECK (fft.getStatus (FFTWrapper::FFTStatus) == ippStsNoErr);
-		CHECK (fft.getStatus (FFTWrapper::MagnitudeStatus) ==
+		CHECK (fft.getStatus (FFTWrapperStatus::FFTStatus) == ippStsNoErr);
+		CHECK (fft.getStatus (FFTWrapperStatus::MagnitudeStatus) ==
 		       ippStsNoErr);
 	}
   
   SECTION("given ones - first bin should be greatest and should equal 1 ")
   {
-    FFTWrapper64 fft;
+    FFTWrapper<double> fft;
     
     // Test signal
     std::vector<double> buffer (kSignalSize, 1.);
@@ -70,7 +70,7 @@ TEST_CASE ("FFT Wrapper - Magnitude")
   }
   SECTION("given ones  and windowed - first bin should be greatest and should equal 0.5 ")
   {
-    FFTWrapper64 fft;
+    FFTWrapper<double> fft;
     
     // Test signal
     std::vector<double> buffer (kSignalSize, 1.);
@@ -89,7 +89,7 @@ TEST_CASE ("FFT Wrapper - Sine Wave", "[sines]")
 {
 	const size_t NFFT = 512;
 
-	FFTWrapper64 fft;
+	FFTWrapper<double> fft;
 
 	size_t blockSize = 64;
 	// Test signal
@@ -131,7 +131,7 @@ TEST_CASE("FFT Wrapper - FFT")
 {
   SECTION(" double Version")
   {
-  FFTWrapper64 fft;
+  FFTWrapper<double> fft;
   
   const size_t NFFT        = 128;
   const size_t kSignalSize = NFFT;
@@ -150,7 +150,7 @@ TEST_CASE("FFT Wrapper - FFT")
   }
   SECTION(" float Version")
   {
-    FFTWrapper32 fft;
+    FFTWrapper<float> fft;
     
     const size_t NFFT        = 512;
     const size_t kSignalSize = NFFT;

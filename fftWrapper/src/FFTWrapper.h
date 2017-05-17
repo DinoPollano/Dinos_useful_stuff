@@ -1,7 +1,5 @@
 #pragma once
 
-#ifndef FFTWRAPPER_H
-#define FFTWRAPPER_H
 //
 //
 //
@@ -99,7 +97,7 @@ private:
 
 #pragma mark -  float implementation
   template <>
-   void FFTWrapper<float>::prepFFT (int fftLength)
+ inline void FFTWrapper<float>::prepFFT (int fftLength)
   {
     if (fftLength != m_fftSize)
     {
@@ -132,7 +130,7 @@ private:
   }
   
   template <>
-    void FFTWrapper<float>::calculateMagnitude (const float* source,
+  inline void FFTWrapper<float>::calculateMagnitude (const float* source,
                                               float*       magnitude)
   {
     // perform fft, this will create an interleaved pointer to pointer of
@@ -151,14 +149,14 @@ private:
   }
   
   template <>
-    void FFTWrapper<float>::performHanningWindow (float* source,
+  inline void FFTWrapper<float>::performHanningWindow (float* source,
                                                 int    lengthInsamples)
   {
     ippsWinHann_32f_I (source, lengthInsamples);  // uses IPP's windowing function
   }
   
   template <>
-   void FFTWrapper<float>::calculateFFT (const float* source, float* reDestination,
+ inline void FFTWrapper<float>::calculateFFT (const float* source, float* reDestination,
                                         float* imDestination)
   {
     // perform fft, this will create an interleaved pointer to pointer of
@@ -178,7 +176,7 @@ private:
   
 #pragma mark -  double implementation
   template <>
-   void FFTWrapper<double>::prepFFT (int fftLength)
+ inline void FFTWrapper<double>::prepFFT (int fftLength)
   {
     if (fftLength != m_fftSize)
     {
@@ -211,7 +209,7 @@ private:
   }
   
   template <>
-   void FFTWrapper<double>::calculateMagnitude (const double* source,
+ inline void FFTWrapper<double>::calculateMagnitude (const double* source,
                                               double*       magnitude)
   {
     // perform fft, this will create an interleaved pointer to pointer of
@@ -230,14 +228,14 @@ private:
   }
   
   template <>
-   void FFTWrapper<double>::performHanningWindow (double* source,
+ inline void FFTWrapper<double>::performHanningWindow (double* source,
                                                 int    lengthInsamples)
   {
     ippsWinHann_64f_I (source, lengthInsamples);  // uses IPP's windowing function
   }
   
   template <>
-    void FFTWrapper<double>::calculateFFT (const double* source, double* reDestination,
+  inline void FFTWrapper<double>::calculateFFT (const double* source, double* reDestination,
                                         double* imDestination)
   {
     // perform fft, this will create an interleaved pointer to pointer of
@@ -257,5 +255,3 @@ private:
 
   
 }  // namespace dino
-
-#endif FFTWRAPPER_H

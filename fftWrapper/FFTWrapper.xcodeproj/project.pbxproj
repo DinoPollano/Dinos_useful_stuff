@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3105FB011E86D1F20019573D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3105FB001E86D1F20019573D /* main.cpp */; };
 		3105FB051E86D2070019573D /* test_FFTWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3105FB021E86D2070019573D /* test_FFTWrapper.cpp */; };
+		31F9FFDB1ECCAAF9008035A6 /* test_Inverse_FFTWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 31F9FFDA1ECCAAF9008035A6 /* test_Inverse_FFTWrapper.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,6 +31,8 @@
 		3105FB021E86D2070019573D /* test_FFTWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_FFTWrapper.cpp; path = src/test_FFTWrapper.cpp; sourceTree = SOURCE_ROOT; };
 		3105FB041E86D2070019573D /* FFTWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTWrapper.h; path = src/FFTWrapper.h; sourceTree = SOURCE_ROOT; };
 		3105FB091E88550E0019573D /* testProcessor.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = testProcessor.xcconfig; sourceTree = "<group>"; };
+		31F9FFD91ECCA46F008035A6 /* IFFTWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IFFTWrapper.h; path = src/IFFTWrapper.h; sourceTree = "<group>"; };
+		31F9FFDA1ECCAAF9008035A6 /* test_Inverse_FFTWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = test_Inverse_FFTWrapper.cpp; path = src/test_Inverse_FFTWrapper.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +67,7 @@
 		3105FAF61E86CCFE0019573D /* FFTWrapper */ = {
 			isa = PBXGroup;
 			children = (
+				31F9FFD91ECCA46F008035A6 /* IFFTWrapper.h */,
 				3105FB041E86D2070019573D /* FFTWrapper.h */,
 				3105FAFF1E86D1B80019573D /* Unit Test */,
 			);
@@ -75,6 +79,7 @@
 			children = (
 				3105FB001E86D1F20019573D /* main.cpp */,
 				3105FB021E86D2070019573D /* test_FFTWrapper.cpp */,
+				31F9FFDA1ECCAAF9008035A6 /* test_Inverse_FFTWrapper.cpp */,
 			);
 			name = "Unit Test";
 			sourceTree = "<group>";
@@ -136,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31F9FFDB1ECCAAF9008035A6 /* test_Inverse_FFTWrapper.cpp in Sources */,
 				3105FB051E86D2070019573D /* test_FFTWrapper.cpp in Sources */,
 				3105FB011E86D1F20019573D /* main.cpp in Sources */,
 			);

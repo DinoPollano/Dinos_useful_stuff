@@ -126,7 +126,7 @@ TEST_CASE ("FFT Wrapper - Sine Wave", "[sines] [FFT]")
 	CHECK (f == Approx (fc).epsilon (0.1));
 }
 
-TEST_CASE ("FFT Wrapper - FFT", "[FFT]")
+TEST_CASE ("FFT Wrapper - FFT", "[FFT] [DSP]")
 {
 	SECTION (" double Version")
 	{
@@ -156,19 +156,20 @@ TEST_CASE ("FFT Wrapper - FFT", "[FFT]")
 
 		// Test signal
 		std::vector<float> buffer (kSignalSize, 1.);
-		std::iota (buffer.begin (), buffer.end (), 1.);
 		std::vector<float> Xfre (NFFT, 0.);
 		std::vector<float> Xfim (NFFT, 0.);
 		fft.prepFFT (NFFT);
 		//      fft.performHanningWindow(buffer.data(), NFFT);
 		fft.calculateFFT (buffer.data (), Xfre.data (), Xfim.data ());
 
-		//    CHECK ( Xfim[1]==*Xfim.end());
-		//    CHECK(*bin ==  1.);
+    std::vector<float>::iterator bin =
+    std::max_element (Xfre.begin (), Xfre.end ());
+    CHECK (bin == Xfre.begin ());
+    CHECK (*bin == 1.);
 	}
 }
 
-TEST_CASE ("FFT Wrapper - Linearity", "[FFT]")
+TEST_CASE ("FFT Wrapper - Linearity", "[DSP]")
 {
 	const size_t NFFT = 512;
 
@@ -199,10 +200,32 @@ TEST_CASE ("FFT Wrapper - Linearity", "[FFT]")
 		}
 		return sin (phase);
 	};
+  
+  auto scaleAndSum = [](double x1, double x2) -> double{
+    return (x1 * 0.2) + (x2 * 0.8);
+  };
 
 	std::transform (xn1.begin (), xn1.end (), xn1.begin (), sinGenerator);
 	incr = 2 * M_PI * fc2 * T;
   std::transform (xn2.begin (), xn2.end (), xn2.begin (), sinGenerator);
+  
+  std::vector<double> test1 (NFFT, 0.);
+  
+	std::transform (xn1.begin (), xn1.end (), xn2.begin (), test1.begin (),
+	                scaleAndSum);
 
-	fft.calculateMagnitude (xn.data (), XF.data ());
+	std::vector<double> output1(NFFT, 0.);
+	fft.calculateMagnitude (test1.data(), output1.data());
+  
+  std::vector<double> output2a(NFFT, 0.);
+  fft.calculateMagnitude (xn1.data(), output2a.data());
+  std::vector<double> output2b(NFFT, 0.);
+  fft.calculateMagnitude (xn2.data(), output2b.data());
+  
+  std::vector<double> output2c(NFFT, 0.);
+  std::transform (output2a.begin (), output2a.end (), output2b.begin (), output2c.begin (),
+                  scaleAndSum);
+  
+  Approx(output2c == output1);
+
 }

@@ -14,24 +14,23 @@
 using dino::FFTWrapper;
 using dino::FFTWrapperStatus;
 
-TEST_CASE ("FFT Wrapper - Magnitude")
+TEST_CASE ("FFT Wrapper - Magnitude", "[FFT]")
 {
 	const size_t NFFT        = 128;
 	const size_t kSignalSize = NFFT;
 
 	SECTION ("Normal behaviour")
 	{
-    FFTWrapper<double> fft;
-    
-    
-    // Test signal
-    std::vector<double> buffer (kSignalSize, 1.);
-    std::vector<double> Xf (NFFT / 2, 0.);
-    
-    fft.prepFFT (NFFT);
-    CHECK (fft.getStatus (FFTWrapperStatus::GetSizeStatus) == ippStsNoErr);
+		FFTWrapper<double> fft;
 
-		fft.performHanningWindow (buffer.data(), kSignalSize);
+		// Test signal
+		std::vector<double> buffer (kSignalSize, 1.);
+		std::vector<double> Xf (NFFT / 2, 0.);
+
+		fft.prepFFT (NFFT);
+		CHECK (fft.getStatus (FFTWrapperStatus::GetSizeStatus) == ippStsNoErr);
+
+		fft.performHanningWindow (buffer.data (), kSignalSize);
 		fft.calculateMagnitude (buffer.data (), Xf.data ());
 
 		CHECK (fft.getStatus (FFTWrapperStatus::GetSizeStatus) == ippStsNoErr);
@@ -39,53 +38,54 @@ TEST_CASE ("FFT Wrapper - Magnitude")
 	}
 	SECTION ("Limits - Giving vectors that are too long")
 	{  // essentially the IPP will just truncate
-    FFTWrapper<double> fft;
-    
-    // Test signal
-    std::vector<double> buffer (kSignalSize, 1.);
-    std::vector<double> Xf (NFFT / 2, 0.);
-    
-    fft.prepFFT (NFFT);
+		FFTWrapper<double> fft;
+
+		// Test signal
+		std::vector<double> buffer (kSignalSize, 1.);
+		std::vector<double> Xf (NFFT / 2, 0.);
+
+		fft.prepFFT (NFFT);
 		std::vector<double> xbig (kSignalSize * 2, 1.);
 
 		fft.calculateMagnitude (xbig.data (), Xf.data ());
 		CHECK (fft.getStatus (FFTWrapperStatus::FFTStatus) == ippStsNoErr);
-		CHECK (fft.getStatus (FFTWrapperStatus::MagnitudeStatus) ==
-		       ippStsNoErr);
+		CHECK (fft.getStatus (FFTWrapperStatus::MagnitudeStatus) == ippStsNoErr);
 	}
-  
-  SECTION("given ones - first bin should be greatest and should equal 1 ")
-  {
-    FFTWrapper<double> fft;
-    
-    // Test signal
-    std::vector<double> buffer (kSignalSize, 1.);
-    std::vector<double> Xf (NFFT / 2, 0.);
-    fft.prepFFT (NFFT);
-    fft.calculateMagnitude (buffer.data (), Xf.data ());
-    std::vector<double>::iterator bin = std::max_element (Xf.begin (), Xf.end ());
-    CHECK (bin == Xf.begin());
-    CHECK(*bin ==  1.);
-   
-  }
-  SECTION("given ones  and windowed - first bin should be greatest and should equal 0.5 ")
-  {
-    FFTWrapper<double> fft;
-    
-    // Test signal
-    std::vector<double> buffer (kSignalSize, 1.);
-    std::vector<double> Xf (NFFT / 2, 0.);
-    fft.prepFFT (NFFT);
-    fft.performHanningWindow(buffer.data(), NFFT);
-    fft.calculateMagnitude (buffer.data (), Xf.data ());
-    std::vector<double>::iterator bin = std::max_element (Xf.begin (), Xf.end ());
-    CHECK (bin == Xf.begin());
-    CHECK(*bin == Approx(0.5).epsilon (0.1));
-    
-  }
+
+	SECTION ("given ones - first bin should be greatest and should equal 1 ")
+	{
+		FFTWrapper<double> fft;
+
+		// Test signal
+		std::vector<double> buffer (kSignalSize, 1.);
+		std::vector<double> Xf (NFFT / 2, 0.);
+		fft.prepFFT (NFFT);
+		fft.calculateMagnitude (buffer.data (), Xf.data ());
+		std::vector<double>::iterator bin =
+		    std::max_element (Xf.begin (), Xf.end ());
+		CHECK (bin == Xf.begin ());
+		CHECK (*bin == 1.);
+	}
+	SECTION (
+	    "given ones  and windowed - first bin should be greatest and should "
+	    "equal 0.5 ")
+	{
+		FFTWrapper<double> fft;
+
+		// Test signal
+		std::vector<double> buffer (kSignalSize, 1.);
+		std::vector<double> Xf (NFFT / 2, 0.);
+		fft.prepFFT (NFFT);
+		fft.performHanningWindow (buffer.data (), NFFT);
+		fft.calculateMagnitude (buffer.data (), Xf.data ());
+		std::vector<double>::iterator bin =
+		    std::max_element (Xf.begin (), Xf.end ());
+		CHECK (bin == Xf.begin ());
+		CHECK (*bin == Approx (0.5).epsilon (0.1));
+	}
 }
 
-TEST_CASE ("FFT Wrapper - Sine Wave", "[sines]")
+TEST_CASE ("FFT Wrapper - Sine Wave", "[sines] [FFT]")
 {
 	const size_t NFFT = 512;
 
@@ -107,15 +107,15 @@ TEST_CASE ("FFT Wrapper - Sine Wave", "[sines]")
 	double T         = 1.0 / Fs;
 	double incr      = 2 * M_PI * fc * T;
 
-	for (int i = 0; i < NFFT; i++)
-	{
-		phase += incr;
-		if (phase > 2.0 * M_PI)
-		{
-			phase -= 2.0 * M_PI;
-		}
-		xn[i] = sin (phase);
-	}
+	std::transform (xn.begin (), xn.end (), xn.begin (),
+	                [&phase, incr](double x) -> double {
+		                phase += incr;
+		                if (phase > 2.0 * M_PI)
+		                {
+			                phase -= 2.0 * M_PI;
+		                }
+		                return sin (phase);
+		              });
 
 	fft.calculateMagnitude (xn.data (), XF.data ());
 
@@ -124,50 +124,108 @@ TEST_CASE ("FFT Wrapper - Sine Wave", "[sines]")
 	double                        f   = (k * Fs) / 512;
 
 	CHECK (f == Approx (fc).epsilon (0.1));
-
 }
 
-TEST_CASE("FFT Wrapper - FFT")
+TEST_CASE ("FFT Wrapper - FFT", "[FFT] [DSP]")
 {
-  SECTION(" double Version")
-  {
-  FFTWrapper<double> fft;
-  
-  const size_t NFFT        = 128;
-  const size_t kSignalSize = NFFT;
-  
-  
-  // Test signal
-  std::vector<double> buffer (kSignalSize, 1.);
-  std::vector<double> Xfre (NFFT, 0.);
-  std::vector<double> Xfim (NFFT, 0.);
-  fft.prepFFT (NFFT);
-//  fft.performHanningWindow(buffer.data(), NFFT);
-  fft.calculateFFT(buffer.data(), Xfre.data(), Xfim.data());
-  std::vector<double>::iterator bin = std::max_element (Xfre.begin (), Xfre.end ());
-  CHECK (bin == Xfre.begin());
-  CHECK(*bin ==  1.);
-  }
-  SECTION(" float Version")
-  {
-    FFTWrapper<float> fft;
-    
-    const size_t NFFT        = 512;
-    const size_t kSignalSize = NFFT;
-    
-    
-    // Test signal
-    std::vector<float> buffer (kSignalSize, 1.);
-    std::iota(buffer.begin(), buffer.end(), 1.);
-    std::vector<float> Xfre (NFFT, 0.);
-    std::vector<float> Xfim (NFFT, 0.);
-    fft.prepFFT (NFFT);
-//      fft.performHanningWindow(buffer.data(), NFFT);
-    fft.calculateFFT(buffer.data(), Xfre.data(), Xfim.data());
+	SECTION (" double Version")
+	{
+		FFTWrapper<double> fft;
 
-//    CHECK ( Xfim[1]==*Xfim.end());
-//    CHECK(*bin ==  1.);
+		const size_t NFFT        = 128;
+		const size_t kSignalSize = NFFT;
 
-  }
+		// Test signal
+		std::vector<double> buffer (kSignalSize, 1.);
+		std::vector<double> Xfre (NFFT, 0.);
+		std::vector<double> Xfim (NFFT, 0.);
+		fft.prepFFT (NFFT);
+		//  fft.performHanningWindow(buffer.data(), NFFT);
+		fft.calculateFFT (buffer.data (), Xfre.data (), Xfim.data ());
+		std::vector<double>::iterator bin =
+		    std::max_element (Xfre.begin (), Xfre.end ());
+		CHECK (bin == Xfre.begin ());
+		CHECK (*bin == 1.);
+	}
+	SECTION (" float Version")
+	{
+		FFTWrapper<float> fft;
+
+		const size_t NFFT        = 512;
+		const size_t kSignalSize = NFFT;
+
+		// Test signal
+		std::vector<float> buffer (kSignalSize, 1.);
+		std::vector<float> Xfre (NFFT, 0.);
+		std::vector<float> Xfim (NFFT, 0.);
+		fft.prepFFT (NFFT);
+		//      fft.performHanningWindow(buffer.data(), NFFT);
+		fft.calculateFFT (buffer.data (), Xfre.data (), Xfim.data ());
+
+    std::vector<float>::iterator bin =
+    std::max_element (Xfre.begin (), Xfre.end ());
+    CHECK (bin == Xfre.begin ());
+    CHECK (*bin == 1.);
+	}
 }
 
+TEST_CASE ("FFT Wrapper - Linearity", "[DSP]")
+{
+	const size_t NFFT = 512;
+
+	FFTWrapper<double> fft;
+
+	size_t blockSize = 64;
+	// Test signal
+	std::vector<double> xn1 (NFFT, 0.);
+  std::vector<double> xn2 (NFFT, 0.);
+	std::vector<double> XF (NFFT / 2, 0.);
+
+	fft.prepFFT (NFFT);
+
+	int    count      = 0;
+	bool   testing    = true;
+	size_t numCycles  = (512 / 64) * 2;
+	double fc1        = 440;
+	double fc2        = 756;
+	double Fs         = 44.1e3;
+	double phase      = 0.;
+	double T          = 1.0 / Fs;
+	double incr       = 2 * M_PI * fc1 * T;
+	auto sinGenerator = [&phase, incr](double x) -> double {
+		phase += incr;
+		if (phase > 2.0 * M_PI)
+		{
+			phase -= 2.0 * M_PI;
+		}
+		return sin (phase);
+	};
+  
+  auto scaleAndSum = [](double x1, double x2) -> double{
+    return (x1 * 0.2) + (x2 * 0.8);
+  };
+
+	std::transform (xn1.begin (), xn1.end (), xn1.begin (), sinGenerator);
+	incr = 2 * M_PI * fc2 * T;
+  std::transform (xn2.begin (), xn2.end (), xn2.begin (), sinGenerator);
+  
+  std::vector<double> test1 (NFFT, 0.);
+  
+	std::transform (xn1.begin (), xn1.end (), xn2.begin (), test1.begin (),
+	                scaleAndSum);
+
+	std::vector<double> output1(NFFT, 0.);
+	fft.calculateMagnitude (test1.data(), output1.data());
+  
+  std::vector<double> output2a(NFFT, 0.);
+  fft.calculateMagnitude (xn1.data(), output2a.data());
+  std::vector<double> output2b(NFFT, 0.);
+  fft.calculateMagnitude (xn2.data(), output2b.data());
+  
+  std::vector<double> output2c(NFFT, 0.);
+  std::transform (output2a.begin (), output2a.end (), output2b.begin (), output2c.begin (),
+                  scaleAndSum);
+  
+  Approx(output2c == output1);
+
+}

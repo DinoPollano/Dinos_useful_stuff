@@ -32,17 +32,14 @@ class circularBuffer
 
 	void init (size_t length, T initialValue)
 	{
-		bufferLength = length;
+    bufferLength = std::pow (2, std::ceil (log2 (length)));
 		buffer.resize (bufferLength, initialValue);
 	}
 
 	inline void insertOne (const T val)
 	{
 		buffer[writeHead] = val;
-		if (++writeHead >= bufferLength)
-		{
-			writeHead = 0;
-		}
+    ++writeHead &= bufferLength - 1;
 	}
 
 	inline void insertMany (const T* values, size_t length)
@@ -50,10 +47,7 @@ class circularBuffer
 		for (int i = 0; i < length; i++)
 		{
 			buffer[writeHead] = values[i];
-			if (++writeHead >= bufferLength)
-			{
-				writeHead = 0;
-			}
+      ++writeHead &= bufferLength - 1;
 		}
 	}
 
@@ -62,7 +56,7 @@ class circularBuffer
 		assert (nFrom <= bufferLength);
 		long int offset = writeHead - nFrom;
 
-		readHead = ((offset % bufferLength) + bufferLength) % bufferLength;
+		readHead = ((offset & bufferLength - 1) + bufferLength) & bufferLength - 1;
 		T output = buffer[readHead];
 		return output;
 	}
@@ -81,10 +75,7 @@ class circularBuffer
 		for (size_t i = 0; i < nFrom; i++)
 		{
 			output[i] = buffer[readHead];
-			if (++writeHead >= bufferLength)
-			{
-				writeHead = 0;
-			}
+      ++writeHead &= bufferLength - 1;
 		}
 		return output;
 	}

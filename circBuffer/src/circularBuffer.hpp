@@ -10,6 +10,7 @@
 #define circularBuffer_hpp
 
 #include <stdio.h>
+#include <cmath>
 #include <vector>
 #include <type_traits>
 #include <assert.h>

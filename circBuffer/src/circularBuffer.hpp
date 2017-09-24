@@ -25,9 +25,7 @@ class circularBuffer
 	circularBuffer ()
 	    : bufferLength (0),
 	      writeHead (0),
-	      readHead (0){
-
-	      };
+        readHead (0){};
 
 	~circularBuffer (){};
 
@@ -76,8 +74,10 @@ class circularBuffer
 		for (size_t i = 0; i < nFrom; i++)
 		{
 			output[i] = buffer[readHead];
-      ++writeHead &= bufferLength - 1;
-		}
+      ((--readHead & bufferLength - 1) + bufferLength) & bufferLength - 1;
+      
+    }
+    
 		return output;
 	}
 

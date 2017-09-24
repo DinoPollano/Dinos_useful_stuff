@@ -8,33 +8,38 @@
 
 #include <stdio.h>
 #include "catch.hh"
-#include "IFFTWrapper.h"
+#include "FFTWrapper.h"
 #include <iostream>
 #include <vector>
 #include <numeric>
-using dino::IFFTWrapper;
-using dino::IFFTWrapperStatus;
+using dino::FFTWrapper;
 
 TEST_CASE("IFFT Wrapper - IFFT","[IFFT]")
 {
   SECTION(" double Version")
   {
-    IFFTWrapper<double> ifft;
+    FFTWrapper<double>  fft;
     
     const size_t NFFT        = 128;
     const size_t kSignalSize = NFFT;
     
-    
     // Test signal
-    std::vector<double> bufferRe (kSignalSize, 1.);
-    std::vector<double> bufferIm (kSignalSize, 0.);
+    std::vector<double> xT (NFFT,0.);
     std::vector<double> Xfre (NFFT, 0.);
     std::vector<double> Xfim (NFFT, 0.);
-    ifft.prepFFT (NFFT);
-    //  fft.performHanningWindow(buffer.data(), NFFT);
-    ifft.calculateIFFT(bufferRe.data(),bufferIm.data(), Xfre.data(), Xfim.data());
+    std::vector<double> reconXre (NFFT,0.);
+    std::vector<double> reconXim (NFFT,0.);
+    xT[4] = 1.0;
     
-    bool test = false;
+    fft.prepFFT (NFFT);
+    
+    
+    fft.calculateFFT   (xT.data(), Xfre.data(), Xfim.data());
+    fft.calculateIFFT (Xfre.data(),Xfim.data(), reconXre.data(), reconXim.data());
+    
+    Approx (reconXre == xT);
+    
+    
   }
   
 }

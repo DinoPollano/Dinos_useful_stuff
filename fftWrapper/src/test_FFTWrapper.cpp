@@ -66,9 +66,7 @@ TEST_CASE ("FFT Wrapper - Magnitude", "[FFT]")
 		CHECK (bin == Xf.begin ());
 		CHECK (*bin == 1.);
 	}
-	SECTION (
-	    "given ones  and windowed - first bin should be greatest and should "
-	    "equal 0.5 ")
+	SECTION ("given ones  and windowed - first bin should be greatest and should equal 0.5 ")
 	{
 		FFTWrapper<double> fft;
 
@@ -107,15 +105,16 @@ TEST_CASE ("FFT Wrapper - Sine Wave", "[sines] [FFT]")
 	double T         = 1.0 / Fs;
 	double incr      = 2 * M_PI * fc * T;
 
-	std::transform (xn.begin (), xn.end (), xn.begin (),
-	                [&phase, incr](double x) -> double {
-		                phase += incr;
-		                if (phase > 2.0 * M_PI)
-		                {
-			                phase -= 2.0 * M_PI;
-		                }
-		                return sin (phase);
-		              });
+  auto sin_gen = [&phase, incr](double x) -> double
+  {
+    phase += incr;
+    if (phase > 2.0 * M_PI)
+       phase -= 2.0 * M_PI;
+    
+    return sin (phase);
+  };
+  
+	std::transform (xn.begin (), xn.end (), xn.begin (), sin_gen);
 
 	fft.calculateMagnitude (xn.data (), XF.data ());
 

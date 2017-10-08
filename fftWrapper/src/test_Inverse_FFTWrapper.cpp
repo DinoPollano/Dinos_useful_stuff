@@ -32,8 +32,7 @@ TEST_CASE("IFFT Wrapper - IFFT","[IFFT]")
     xT[4] = 1.0;
     
     fft.prepFFT (NFFT);
-    
-    
+  
     fft.calculateFFT   (xT.data(), Xfre.data(), Xfim.data());
     fft.calculateIFFT (Xfre.data(),Xfim.data(), reconXre.data(), reconXim.data());
     

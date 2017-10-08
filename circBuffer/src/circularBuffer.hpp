@@ -62,8 +62,7 @@ class circularBuffer
 
 	inline T getInterpolatedOne (float nFrom)
 	{
-		static_assert (std::is_arithmetic<T> (),
-		               "must be float (or double) to get interpolated value");
+		static_assert (std::is_arithmetic<T> (),"must be float (or double) to get interpolated value");
 	}
 
 	inline std::vector<T> getMany (size_t nFrom)
@@ -75,7 +74,6 @@ class circularBuffer
 		{
 			output[i] = buffer[readHead];
       ((--readHead & bufferLength - 1) + bufferLength) & bufferLength - 1;
-      
     }
     
 		return output;
@@ -83,12 +81,10 @@ class circularBuffer
 
 	inline std::vector<T> getUnwrapped ()
 	{
-		std::vector<T>                    unwrapped;
-		typename std::vector<T>::iterator oldestElement =
-		    buffer.begin () + writeHead;
+		std::vector<T> unwrapped;
+		typename std::vector<T>::iterator oldestElement = buffer.begin () + writeHead;
 		unwrapped.insert (unwrapped.begin (), oldestElement, buffer.end ());
-		unwrapped.insert (unwrapped.end (), buffer.begin (),
-		                  buffer.begin () + (writeHead));
+		unwrapped.insert (unwrapped.end (), buffer.begin (),buffer.begin () + (writeHead));
 
 		return unwrapped;
 	}

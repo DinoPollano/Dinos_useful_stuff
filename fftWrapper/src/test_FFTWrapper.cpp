@@ -191,7 +191,7 @@ TEST_CASE ("FFT Wrapper - Linearity", "[DSP]")
 	double phase      = 0.;
 	double T          = 1.0 / Fs;
 	double incr       = 2 * M_PI * fc1 * T;
-	auto sinGenerator = [&phase, incr](double x) -> double {
+	auto sinGenerator = [&phase, incr] (double x) -> double {
 		phase += incr;
 		if (phase > 2.0 * M_PI)
 		{
@@ -200,7 +200,7 @@ TEST_CASE ("FFT Wrapper - Linearity", "[DSP]")
 		return sin (phase);
 	};
   
-  auto scaleAndSum = [](double x1, double x2) -> double{
+  auto scaleAndSum = [] (double x1, double x2) -> double{
     return (x1 * 0.2) + (x2 * 0.8);
   };
 
@@ -210,20 +210,18 @@ TEST_CASE ("FFT Wrapper - Linearity", "[DSP]")
   
   std::vector<double> test1 (NFFT, 0.);
   
-	std::transform (xn1.begin (), xn1.end (), xn2.begin (), test1.begin (),
-	                scaleAndSum);
+	std::transform (xn1.begin (), xn1.end (), xn2.begin (), test1.begin (), scaleAndSum);
 
 	std::vector<double> output1(NFFT, 0.);
 	fft.calculateMagnitude (test1.data(), output1.data());
   
-  std::vector<double> output2a(NFFT, 0.);
+  std::vector<double> output2a (NFFT, 0.);
   fft.calculateMagnitude (xn1.data(), output2a.data());
-  std::vector<double> output2b(NFFT, 0.);
+  std::vector<double> output2b (NFFT, 0.);
   fft.calculateMagnitude (xn2.data(), output2b.data());
   
-  std::vector<double> output2c(NFFT, 0.);
-  std::transform (output2a.begin (), output2a.end (), output2b.begin (), output2c.begin (),
-                  scaleAndSum);
+  std::vector<double> output2c (NFFT, 0.);
+  std::transform (output2a.begin (), output2a.end (), output2b.begin (), output2c.begin (), scaleAndSum);
   
   Approx(output2c == output1);
 

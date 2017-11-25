@@ -29,18 +29,21 @@ class circularBuffer
 
 	~circularBuffer (){};
 
+  /** Rounds the size given to the nearest power of two*/
 	void init (size_t length, T initialValue)
 	{
     bufferLength = std::pow (2, std::ceil (log2 (length)));
 		buffer.resize (bufferLength, initialValue);
 	}
 
+  /** adds one at the current writeHead then increments writeHead */
 	inline void insertOne (const T val)
 	{
 		buffer[writeHead] = val;
     ++writeHead &= bufferLength - 1;
 	}
 
+  /** Inserts as many as set in the write head and increments the write head */
 	inline void insertMany (const T* values, size_t length)
 	{
 		for (int i = 0; i < length; i++)
@@ -50,6 +53,7 @@ class circularBuffer
 		}
 	}
 
+  /** returns the nth thing from the writeHead*/
 	inline T getOne (size_t nFrom)
 	{
 		assert (nFrom <= bufferLength);
@@ -65,6 +69,7 @@ class circularBuffer
 		static_assert (std::is_arithmetic<T> (),"must be float (or double) to get interpolated value");
 	}
 
+  /** returns a vector of things starting from the most recently added to  the nth*/
 	inline std::vector<T> getMany (size_t nFrom)
 	{
 		assert (nFrom < bufferLength);
@@ -90,11 +95,13 @@ class circularBuffer
 	}
 
 	size_t getLength () { return bufferLength; };
+  
+  /** fills the buffer with initial values of the type given*/
 	void   flush ()
 	{
 		if (bufferLength > 0)
 		{
-			std::fill (buffer.begin (), buffer.end (), 0.);
+			std::fill (buffer.begin (), buffer.end (), T());
 			buffer.clear ();
 		}
 	}

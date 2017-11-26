@@ -1,0 +1,11 @@
+// hacked xcconfig to get working with IPP and in my file structure
+
+// Paths
+
+HEADER_SEARCH_PATHS = /Developer/Headers/FlatCarbon /opt/intel/ipp/include/ Dinos_useful_Stuff/
+LIBRARY_SEARCH_PATHS =  /opt/intel/ipp/lib/
+
+
+OTHER_CFLAGS = -fvisibility=hidden
+OTHER_LDFLAGS = /opt/intel/ipp/lib/libippi.a /opt/intel/ipp/lib/libipps.a /opt/intel/ipp/lib/libippvm.a /opt/intel/ipp/lib/libippcore.a
+

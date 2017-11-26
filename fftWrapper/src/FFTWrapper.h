@@ -1,14 +1,8 @@
 #pragma once
-
-//
-//
-//
-//
-//
 /*
         wrapper of the Intel Primitives Protocol FFT functions
  */
-
+#include "../../DinosusefulStuff.h"
 #include <stdio.h>
 #include "ipp.h"
 #include <vector>

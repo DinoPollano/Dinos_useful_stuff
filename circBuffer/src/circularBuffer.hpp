@@ -6,8 +6,7 @@
 //  Copyright © 2017 dino. All rights reserved.
 //
 
-#ifndef circularBuffer_hpp
-#define circularBuffer_hpp
+#pragma once
 
 #include <stdio.h>
 #include <cmath>
@@ -113,5 +112,4 @@ class circularBuffer
 	size_t          readHead;
 };
 }
-//#include "circularBuffer.cpp"
-#endif /* circularBuffer_hpp */
+/* circularBuffer_hpp */

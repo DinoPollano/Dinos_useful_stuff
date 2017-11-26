@@ -6,10 +6,10 @@
 //
 //
 
-#ifndef dinosUsefulStuff_h
-#define dinosUsefulStuff_h
+#pragma once
 #include "circBuffer/src/circularBuffer.hpp"
 #include "fftWrapper/src/FFTWrapper.h"
 
 
-#endif /* dinosUsefulStuff_h */
+
+/* dinosUsefulStuff_h */

@@ -2,12 +2,9 @@
 /*
         wrapper of the Intel Primitives Protocol FFT functions
  */
-#include "../../DinosusefulStuff.h"
 #include <stdio.h>
 #include "ipp.h"
-#include <vector>
-#include "math.h"
-#include <type_traits>
+#include "common.pp"
 
 namespace dino
 {

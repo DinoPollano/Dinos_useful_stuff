@@ -28,9 +28,12 @@ namespace dino
     };
     public:
       Filter(){static_assert(std::is_floating_point <T>(), "filter type must be float or double");}
-      void init(int type, int order, T initialCo){}
+      void init(int type, int order, T initialCo, int Fs)
+      {
+        
+      }
     private:
-      T cO;
+      T cutOFf;
       circularBuffer<T> buff;
       std::vector <Coefficient<T>> coeffs;
   };

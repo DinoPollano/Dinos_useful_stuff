@@ -7,14 +7,11 @@
 //
 
 #pragma once
-
+#include "common.hpp"
 #include <stdio.h>
-#include <cmath>
-#include <vector>
-#include <type_traits>
 #include <assert.h>
 #include <algorithm>
-#include <type_traits>
+
 namespace dino
 {
 template <class T>

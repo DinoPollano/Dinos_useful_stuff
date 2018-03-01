@@ -27,8 +27,8 @@ namespace dino
       HPF
     };
     public:
-      Filter(){static_assert(std::is_floating_point <T>(), "filter type must be float or double");}
-      void init(int type, int order, T initialCo, int Fs)
+      Filter(){static_assert (std::is_floating_point <T>(), "filter type must be float or double");}
+      void init (int type, int order, T initialCo, int Fs)
       {
         
       }

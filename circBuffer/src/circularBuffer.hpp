@@ -108,7 +108,7 @@ template <class T>
     size_t          writeHead;
     size_t          readHead;
   };
-  
+  /** circular iterator: [n] operators will return the value from the n elements from the iterator "head" which will increment with every call of the insert function*/
   template <class T>
   class writeHeadIterator : public std::iterator <std::random_access_iterator_tag, T>
   {
@@ -128,19 +128,15 @@ template <class T>
           iter -= numElements;
       }
 
+      T operator[](int n)
+      {
+    
+      }
+
     private:
       iterator iter;
       const iterator end;
       size_t numElements;
   };
-  
-  template <class T>
-  class readHead : public std::iterator<std::random_access_iterator_tag, T>
-  {
-    public:
-     typedef typename std::vector<T>::iterator iterator;
-
-    private:
-  }
 }
 /* circularBuffer_hpp */

@@ -18,13 +18,17 @@ namespace dino
  
   /** circular iterator: [n] operators will return the value from the n elements from the iterator "head" which will increment with every call of the insert function*/
   template <class T>
-  class writeHeadIterator : public std::iterator <std::random_access_iterator_tag, T>
+  class circularIterator : public std::iterator <std::random_access_iterator_tag, T>
   {
       public:
         typedef typename std::vector<T>::iterator iterator;
+
+        circularIterator()
+        {
+          distanceFromStart = 0;
+        }
         /** give the beging and end iterators to the data you're pointing at */
-        writeHeadIterator(){};
-        writeHeadIterator (iterator b, iterator e) : iter (b), end (e), distanceFromStart(0)
+        circularIterator (iterator b, iterator e) : iter (b), end (e), distanceFromStart (0)
         {
           numElements = std::distance (iter, end);
         }
@@ -32,24 +36,37 @@ namespace dino
         /** will insert value then increment the iterator */
         void insert (T val)
         {
-          assert (iter != nullptr);
+//          assert (iter);
           *iter = val;
           ++distanceFromStart;
           if (++iter == end)
-            iter,distanceFromStart -= numElements;
+          {
+            distanceFromStart -= numElements;
+            iter              -= numElements;
+          }
         }
   
         T operator[] (int n)
         {
-          assert (iter != nullptr);
-          return (n < distanceFromStart)? *(iter - n) : *(n - (n-distanceFromStart));
+//          assert (iter);
+            ++n;
+          return (n <= distanceFromStart)? *(iter - n) : *(end - (n-distanceFromStart));
+        }
+
+         circularIterator<T>& operator= (const circularIterator<T> &rhs)
+        {
+          iter              = rhs.iter;
+          end               = rhs.end;
+          numElements       = rhs.numElements;
+          distanceFromStart = rhs.distanceFromStart;
+          return *this;
         }
   
       private:
         iterator iter;
-        const iterator end;
+        iterator end;
         size_t numElements;
-        size_t distanceFromStart;
+        int distanceFromStart;
     };
 
 
@@ -58,18 +75,18 @@ template <class T>
   {
    public:
     circularBuffer ()
-        : bufferLength (0),
-          writeHead (0),
-          readHead (0){};
+      : bufferLength (0),
+        writeHead (0),
+        readHead (0){};
 
-      ~circularBuffer (){};
+    ~circularBuffer (){};
 
     /** Rounds the size given to the nearest power of two*/
     void init (size_t length, T initialValue)
     {
       bufferLength = std::pow (2, std::ceil (log2 (length)));
       buffer.resize (bufferLength, initialValue);
-      wH = writeHeadIterator<T>(buffer.begin(),buffer.end());
+      circularIter = circularIterator<T> (buffer.begin(),buffer.end());
     }
 
     /** adds one at the current writeHead then increments writeHead */
@@ -141,12 +158,12 @@ template <class T>
       }
     }
       
-    writeHeadIterator<T>& getWriteHeadIter()
+    circularIterator<T> getIterator()
     {
-      return &wH;
+      return circularIter;
     }   
 
-    writeHeadIterator<T> wH;
+    circularIterator<T> circularIter;
    private:
     std::vector<T>  buffer;
     signed long int bufferLength;

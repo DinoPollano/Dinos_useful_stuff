@@ -12,5 +12,17 @@
 
 TEST_CASE("Circular Buffer Iterator")
 {
-  
+  dino::circularBuffer<int> circular;
+  circular.init (64,0.f);
+  auto iter = circular.getIterator();
+  for (int i = 0; i < 3; ++i)
+  {
+    iter.insert (i);
+  }
+  for (int i =  3; i < (128-3); ++i)
+  {
+    iter.insert (i);
+    CHECK (iter[3] == (i-3));
+  }
+  circular.flush();
 }

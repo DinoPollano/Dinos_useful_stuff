@@ -4,7 +4,7 @@
  */
 #include <stdio.h>
 #include "ipp.h"
-#include "common.pp"
+#include "common.hpp"
 
 namespace dino
 {

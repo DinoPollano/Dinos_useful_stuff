@@ -8,7 +8,7 @@
 
 #pragma once
 #include "circBuffer/src/circularBuffer.hpp"
-#include "fftWrapper/src/FFTWrapper.h"
+#include "fftWrapper/src/FFTWrapper.hpp"
 
 
 

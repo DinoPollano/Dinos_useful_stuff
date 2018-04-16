@@ -53,6 +53,16 @@ namespace dino
           return (n <= distanceFromStart)? *(iter - n) : *(end - (n-distanceFromStart));
         }
 
+        T operator[] (float x)
+        {
+            assert  (std::is_floating_point<T>::value);
+            float x1 = std::ceil (x);
+            float x0 = std::floor (x);
+            T y1 = (x1 <= distanceFromStart)? *(iter - x1) : *(end - (x1-distanceFromStart));
+            T y0 = (x0 <= distanceFromStart)? *(iter - x0) : *(end - (x0-distanceFromStart));
+            return y0 + (y1 - y0)/(x1 - x0) * (x - x0);
+        }
+    
          circularIterator<T>& operator= (const circularIterator<T> &rhs)
         {
           iter              = rhs.iter;

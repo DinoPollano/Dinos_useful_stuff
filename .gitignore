@@ -6,3 +6,4 @@ fftWrapper/FFTWrapper.xcodeproj
 fftWrapper/FFTWrapper.xcodeproj
 *.pbxproj
 circBuffer/circBuffer.xcodeproj
+circBuffer/circBuffer.xcodeproj
